@@ -45,6 +45,10 @@ namespace jp.jc_21.No170476.CSACC.document.entity
             WorkPlan.Insert(connection, requestId);
             RestPlan.Insert(connection, requestId);
         }
+
+        /* 
+         * TODO: GetAutoNumber
+         */
         private int GetId(OleDbConnection connection, int documentId, int employeeId, String divisionName)
         {
             var order = $"SELECT id FROM request WHERE document_id = {documentId} and employee_id = {employeeId} and division = '{divisionName}'";
@@ -59,12 +63,13 @@ namespace jp.jc_21.No170476.CSACC.document.entity
         }
         private void Insert(OleDbConnection connection, int documentId, int employeeId, String divisionName)
         {
-            var insertOrder = new SQLBuilder.Insert("request (document_id, employee_id, division)")
+            var insertCommand = new SQLBuilder.Insert("request (document_id, employee_id, division)")
                                             .add(documentId)
                                             .add(employeeId)
                                             .add(divisionName)
                                             .build(connection);
-            insertOrder.ExecuteNonQuery();
+
+            insertCommand.ExecuteNonQuery();
         }
     }
 }

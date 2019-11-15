@@ -26,40 +26,6 @@ namespace jp.jc_21.No170476.CSACC.document.entity
             insertOrder.ExecuteNonQuery();
         }
 
-        //private int GetId(OleDbConnection connection, RequestDivision requestDivision)
-        //{
-        //    var result = SelectId(connection);
-        //    if (result.isEmpty)
-        //        switch (requestDivision)
-        //        {
-        //            case RequestDivision.New:
-        //                Insert(connection);
-        //                GetId(connection, requestDivision);
-        //                break;
-        //            case RequestDivision.Update: throw new InvalidOperationException($"不正な休日出勤届[更新]: 存在しない申請です。(date = {Date.ToShortDateString()}, time = {Time} )");
-        //            case RequestDivision.Delete: throw new InvalidOperationException($"不正な休日出勤届[取り消し]: 存在しない申請です。(date = {Date.ToShortDateString()}, time = {Time} )");
-        //        }
-        //    else
-        //        if (requestDivision == RequestDivision.New)
-        //            throw new InvalidOperationException($"不正な休日出勤届[新規]: 申請の追加に失敗しました。(date = {Date.ToShortDateString()}, time = {Time} )");
-        //    return result.Get;
-        //}
-        //private Option<int> SelectId(OleDbConnection connection)
-        //{
-        //    var timeStr = Enum<WorkTimeDivision>.DescriptionValueDictionary[Time];
-        //    var order = $"SELECT id FROM weekday_rest_plan WHERE date = #{Date.ToShortDateString()}# AND time = '{timeStr}'";
-        //    Console.WriteLine("order: " + order);
-        //    var command = new OleDbCommand(order, connection);
-        //    var orderResult = command.ExecuteScalar();
-        //    if (orderResult == null)
-        //        return new Option<int>();
-
-        //    return new Option<int>((int)orderResult);
-        //}
-
-
-
-
         public static class Factory
         {
             public static WeekdayRestPlan[] GenerateDevided(String _date, String _time)
