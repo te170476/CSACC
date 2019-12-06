@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using jp.jc_21.No170476.CSACC.document.enums;
 using jp.jc_21.No170476.CSACC.extensions;
@@ -39,37 +40,23 @@ namespace jp.jc_21.No170476.CSACC.document.entity
             var employeeId = Employee.GetId(connection);
             var divisionName = Enum<RequestDivision>.DescriptionValueDictionary[Division];
 
-            Insert(connection, documentId, employeeId, divisionName);
-            var requestId = GetId(connection, documentId, employeeId, divisionName);
+            var requestId = InsertAndGetId(connection, documentId, employeeId, divisionName);
 
             WorkPlan.Insert(connection, requestId);
             RestPlan.Insert(connection, requestId);
         }
 
-        /* 
-         * TODO: GetAutoNumber
-         */
-        private int GetId(OleDbConnection connection, int documentId, int employeeId, String divisionName)
-        {
-            var order = $"SELECT id FROM request WHERE document_id = {documentId} and employee_id = {employeeId} and division = '{divisionName}'";
-            var command = new OleDbCommand(order, connection);
-            var orderResult = command.ExecuteScalar();
-            //if (orderResult == null)
-            //{
-            //    Insert(connection);
-            //    return GetId(connection);
-            //}
-            return (int)orderResult;
-        }
-        private void Insert(OleDbConnection connection, int documentId, int employeeId, String divisionName)
+        private int InsertAndGetId(OleDbConnection connection, int documentId, int employeeId, String divisionName)
         {
             var insertCommand = new SQLBuilder.Insert("request (document_id, employee_id, division)")
                                             .add(documentId)
                                             .add(employeeId)
                                             .add(divisionName)
                                             .build(connection);
-
             insertCommand.ExecuteNonQuery();
+
+            var selectCommand = new OleDbCommand("SELECT @@IDENTITY", connection);
+            return (int)selectCommand.ExecuteScalar();
         }
     }
 }

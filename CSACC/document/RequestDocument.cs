@@ -25,20 +25,12 @@ namespace jp.jc_21.No170476.CSACC.document
 
         public int GetId(OleDbConnection connection)
         {
-            var writerId     = Writer.GetId(connection);
+            var writerId = Writer.GetId(connection);
             var departmentId = Department.GetId(connection);
 
-            var order = $"SELECT id FROM document WHERE writer_id = {writerId} and department_id = {departmentId} and `date` = #{Date}#";
-            var command = new OleDbCommand(order, connection);
-            var orderResult = command.ExecuteScalar();
-            if (orderResult == null)
-            {
-                Insert(connection, writerId, departmentId);
-                return GetId(connection);
-            }
-            return (int)orderResult;
+            return (int)Insert(connection, writerId, departmentId);
         }
-        private void Insert(OleDbConnection connection, int writerId, int departmentId)
+        private int Insert(OleDbConnection connection, int writerId, int departmentId)
         {
             var insertOrder = new SQLBuilder.Insert("document (writer_id, department_id, `date`)")
                                             .add(writerId)
@@ -46,6 +38,9 @@ namespace jp.jc_21.No170476.CSACC.document
                                             .add(Date)
                                             .build(connection);
             insertOrder.ExecuteNonQuery();
+
+            var selectCommand = new OleDbCommand("SELECT @@IDENTITY", connection);
+            return (int)selectCommand.ExecuteScalar();
         }
     }
 }
