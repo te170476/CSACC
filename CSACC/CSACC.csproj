@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adapter\Adapter.cs" />
+    <Compile Include="adapter\controller\Request.cs" />
     <Compile Include="adapter\gateway\Connector.cs" />
     <Compile Include="adapter\IView.cs" />
     <Compile Include="extension\OleDbExtensions.cs" />
@@ -81,6 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="adapter\view\" />
+    <Folder Include="entity\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

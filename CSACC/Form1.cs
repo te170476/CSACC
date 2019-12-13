@@ -1,4 +1,5 @@
 ﻿using com.github.tcc170476.CSACC.adapter;
+using com.github.tcc170476.CSACC.adapter.controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,21 +42,29 @@ namespace com.github.tcc170476.CSACC
         }
         private void ApplyButton_Click(object sender, EventArgs e)
         {
-            var writerId = int.Parse(writerIdComboBox.Text);
-            var departmentId = int.Parse(departmentIdComboBox.Text);
-            var requesterId = int.Parse(requesterIdComboBox.Text);
-            var workDate = DateTime.Parse(workDatePicker.Text);
-            var workTime = workTimeComboBox.Text;
-            var restDate = DateTime.Parse(restDatePicker.Text);
-            var restTime = restTimeComboBox.Text;
+            var request = new Request(
+                  writerIdComboBox.Text
+                , departmentIdComboBox.Text
+                , requestDivisionComboBox.Text
+                , requesterIdComboBox.Text
+                , workDatePicker.Text
+                , workTimeComboBox.Text
+                , restDatePicker.Text
+                , restTimeComboBox.Text
+                );
 
-            var requestDivision = requestDivisionComboBox.Text;
+            switch (request.Division)
+            {
+                case "新規":
+                    //adapter.AddRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+                    break;
+                case "変更":
+                    //adapter.UpdateRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+                    break;
+                case "取消":
 
-            //if (requestDivision == "新規")
-                //adapter.AddRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
-            //if (requestDivision == "更新")
-                //adapter.UpdateRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
-
+                    break;
+            }
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using com.github.tcc170476.CSACC.adapter;
+using com.github.tcc170476.CSACC.adapter.controller;
 using com.github.tcc170476.CSACC.adapter.gateway;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,18 @@ namespace com.github.tcc170476.CSACC
         public Adapter(IView view)
         {
             View = view;
+        }
+        public void Add(Request request)
+        {
+
+        }
+        public void Update(Request request)
+        {
+
+        }
+        public void Delete(Request request)
+        {
+
         }
     }
 }
