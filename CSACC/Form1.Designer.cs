@@ -134,7 +134,7 @@
             this.requestDivisionComboBox.FormattingEnabled = true;
             this.requestDivisionComboBox.Items.AddRange(new object[] {
             "新規",
-            "更新",
+            "変更",
             "削除"});
             this.requestDivisionComboBox.Location = new System.Drawing.Point(87, 105);
             this.requestDivisionComboBox.Name = "requestDivisionComboBox";

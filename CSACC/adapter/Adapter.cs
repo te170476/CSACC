@@ -55,7 +55,40 @@ namespace com.github.tcc170476.CSACC
         }
         public void Update(Request request)
         {
+            var transaction = Gateway.GetTransaction();
+            var workPlanId = Gateway.Plan.SelectId(
+                  transaction
+                , request.Requester
+                , request.WorkDate
+                , request.WorkTime
+                );
+            if (workPlanId.isEmpty()) { failure(); return; }
 
+            var restPlanId = Gateway.Plan.SelectRestPlanId(
+                  transaction
+                , workPlanId.get().ToString()
+                );
+            if (restPlanId.isEmpty()) { failure(); return; }
+
+            var result = Gateway.Plan.Update(
+                transaction
+              , restPlanId.get().ToString()
+              , request.RestDate
+              , request.RestTime
+              );
+            if (result.isFailure()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnUpdateRequest(new Success());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnUpdateRequest(new Failure());
+            }
         }
         public void Delete(Request request)
         {

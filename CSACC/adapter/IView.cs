@@ -10,5 +10,6 @@ namespace com.github.tcc170476.CSACC.adapter
     interface IView
     {
         void OnAddRequest(Result result);
+        void OnUpdateRequest(Result result);
     }
 }
