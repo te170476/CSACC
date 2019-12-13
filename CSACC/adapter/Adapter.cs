@@ -1,8 +1,10 @@
 ﻿using com.github.tcc170476.CSACC.adapter;
 using com.github.tcc170476.CSACC.adapter.controller;
 using com.github.tcc170476.CSACC.adapter.gateway;
+using com.github.tcc170476.CSACC.util;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,17 +22,36 @@ namespace com.github.tcc170476.CSACC
         public void Add(Request request)
         {
             var transaction = Gateway.GetTransaction();
-            var result = Gateway.Plan.Insert(
+            var restPlanId = Gateway.Plan.Insert(
+                  transaction
+                , request.Requester
+                , request.RestDate
+                , request.RestTime
+                , "rest"
+                , ""
+                );
+            if (restPlanId.isEmpty()) { failure(); return; }
+            var workPlanId = Gateway.Plan.Insert(
                   transaction
                 , request.Requester
                 , request.WorkDate
                 , request.WorkTime
                 , "work"
-                , ""
+                , restPlanId.get().ToString()
                 );
-            if (result.isSucceed())
+            if (workPlanId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
                 transaction.Commit();
-            transaction.Rollback();
+                View.OnAddRequest(new Success());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnAddRequest(new Failure());
+            }
         }
         public void Update(Request request)
         {

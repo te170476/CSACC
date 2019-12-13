@@ -45,13 +45,10 @@
             this.getRequesterIdButton = new System.Windows.Forms.Button();
             this.workDatePicker = new System.Windows.Forms.DateTimePicker();
             this.workTimeComboBox = new System.Windows.Forms.ComboBox();
-            this.workDatePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.workTimeComboBox２ = new System.Windows.Forms.ComboBox();
             this.restDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.restDatePicker2 = new System.Windows.Forms.DateTimePicker();
             this.restTimeComboBox = new System.Windows.Forms.ComboBox();
-            this.restTimeComboBox2 = new System.Windows.Forms.ComboBox();
             this.applyButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // readButton
@@ -207,41 +204,12 @@
             this.workTimeComboBox.Size = new System.Drawing.Size(76, 20);
             this.workTimeComboBox.TabIndex = 17;
             // 
-            // workDatePicker2
-            // 
-            this.workDatePicker2.Enabled = false;
-            this.workDatePicker2.Location = new System.Drawing.Point(124, 252);
-            this.workDatePicker2.Name = "workDatePicker2";
-            this.workDatePicker2.Size = new System.Drawing.Size(106, 19);
-            this.workDatePicker2.TabIndex = 18;
-            // 
-            // workTimeComboBox２
-            // 
-            this.workTimeComboBox２.Enabled = false;
-            this.workTimeComboBox２.FormattingEnabled = true;
-            this.workTimeComboBox２.Items.AddRange(new object[] {
-            "午前",
-            "午後",
-            "一日"});
-            this.workTimeComboBox２.Location = new System.Drawing.Point(236, 251);
-            this.workTimeComboBox２.Name = "workTimeComboBox２";
-            this.workTimeComboBox２.Size = new System.Drawing.Size(76, 20);
-            this.workTimeComboBox２.TabIndex = 19;
-            // 
             // restDatePicker
             // 
             this.restDatePicker.Location = new System.Drawing.Point(124, 209);
             this.restDatePicker.Name = "restDatePicker";
             this.restDatePicker.Size = new System.Drawing.Size(106, 19);
             this.restDatePicker.TabIndex = 20;
-            // 
-            // restDatePicker2
-            // 
-            this.restDatePicker2.Enabled = false;
-            this.restDatePicker2.Location = new System.Drawing.Point(124, 277);
-            this.restDatePicker2.Name = "restDatePicker2";
-            this.restDatePicker2.Size = new System.Drawing.Size(106, 19);
-            this.restDatePicker2.TabIndex = 21;
             // 
             // restTimeComboBox
             // 
@@ -255,19 +223,6 @@
             this.restTimeComboBox.Size = new System.Drawing.Size(76, 20);
             this.restTimeComboBox.TabIndex = 22;
             // 
-            // restTimeComboBox2
-            // 
-            this.restTimeComboBox2.Enabled = false;
-            this.restTimeComboBox2.FormattingEnabled = true;
-            this.restTimeComboBox2.Items.AddRange(new object[] {
-            "午前",
-            "午後",
-            "一日"});
-            this.restTimeComboBox2.Location = new System.Drawing.Point(236, 276);
-            this.restTimeComboBox2.Name = "restTimeComboBox2";
-            this.restTimeComboBox2.Size = new System.Drawing.Size(76, 20);
-            this.restTimeComboBox2.TabIndex = 23;
-            // 
             // applyButton
             // 
             this.applyButton.Location = new System.Drawing.Point(322, 38);
@@ -278,18 +233,24 @@
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(95, 243);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.TabIndex = 25;
+            this.label1.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.applyButton);
-            this.Controls.Add(this.restTimeComboBox2);
             this.Controls.Add(this.restTimeComboBox);
-            this.Controls.Add(this.restDatePicker2);
             this.Controls.Add(this.restDatePicker);
-            this.Controls.Add(this.workTimeComboBox２);
-            this.Controls.Add(this.workDatePicker2);
             this.Controls.Add(this.workTimeComboBox);
             this.Controls.Add(this.workDatePicker);
             this.Controls.Add(this.requesterNameLabel);
@@ -333,13 +294,10 @@
         private System.Windows.Forms.Button getRequesterIdButton;
         private System.Windows.Forms.DateTimePicker workDatePicker;
         private System.Windows.Forms.ComboBox workTimeComboBox;
-        private System.Windows.Forms.DateTimePicker workDatePicker2;
-        private System.Windows.Forms.ComboBox workTimeComboBox２;
         private System.Windows.Forms.DateTimePicker restDatePicker;
-        private System.Windows.Forms.DateTimePicker restDatePicker2;
         private System.Windows.Forms.ComboBox restTimeComboBox;
-        private System.Windows.Forms.ComboBox restTimeComboBox2;
         private System.Windows.Forms.Button applyButton;
+        private System.Windows.Forms.Label label1;
     }
 }
 

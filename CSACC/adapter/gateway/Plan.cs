@@ -13,7 +13,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
         private String TableName = "plan";
         public Plan(OleDbConnection connection) : base(connection) { }
 
-        public Result Insert(
+        public Option<int> Insert(
               OleDbTransaction transaction
             , String requester
             , String date
@@ -29,9 +29,14 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             command.Transaction = transaction;
             try {
                 command.ExecuteNonQuery();
-                return new Success();
-            } catch (OleDbException) {
-                return new Failure();
+
+                var selectCommand = new OleDbCommand("SELECT @@IDENTITY", Connection);
+                selectCommand.Transaction = transaction;
+                var result = (int)selectCommand.ExecuteScalar();
+                return new Some<int>(result);
+            } catch (OleDbException e) {
+                Console.WriteLine(e.StackTrace);
+                return new None<int>();
             }
         }
     }

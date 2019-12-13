@@ -1,5 +1,6 @@
 ﻿using com.github.tcc170476.CSACC.adapter;
 using com.github.tcc170476.CSACC.adapter.controller;
+using com.github.tcc170476.CSACC.util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,74 +68,22 @@ namespace com.github.tcc170476.CSACC
             }
         }
 
+        public void OnAddRequest(Result result)
+        {
+            if (result.isFailure())
+                { SetFailureLabel("Request is not added."); return; }
+            SetSucceedLabel("Request added.");
+        }
 
-        ///* Methods is called from Adapter */
-        //public void SetWriterIds(List<String> ids)
-        //{
-        //    writerIdComboBox.Items.Clear();
-        //    if (ids.Count() == 0)
-        //    {
-        //        writerIdComboBox.Text = "";
-        //        DialogResult dialogResult =
-        //            MessageBox.Show($"新しく {writerNameTextBox.Text} さんのデータを追加しますか？"
-        //                          , "履歴に存在しない社員名が入力されました"
-        //                          , MessageBoxButtons.YesNo
-        //                          , MessageBoxIcon.Question);
-        //        if (dialogResult != DialogResult.Yes) return;
-        //        adapter.AddWriter(writerNameTextBox.Text);
-        //        return;
-        //    }
-
-        //    writerIdComboBox.Items.AddRange(ids.ToArray());
-        //    writerIdComboBox.SelectedIndex = 0;
-        //    if (ids.Count() > 1)
-        //        writerIdComboBox.DroppedDown = true;
-        //}
-        //public void SetDepartmentIds(List<String> ids)
-        //{
-        //    departmentIdComboBox.Items.Clear();
-        //    if (ids.Count() == 0)
-        //    {
-        //        departmentIdComboBox.Text = "";
-        //        DialogResult dialogResult =
-        //            MessageBox.Show($"新しく 部署:{departmentNameTextBox.Text} のデータを追加しますか？"
-        //                          , "履歴に存在しない部署名が入力されました"
-        //                          , MessageBoxButtons.YesNo
-        //                          , MessageBoxIcon.Question);
-        //        if (dialogResult != DialogResult.Yes) return;
-        //        adapter.AddDepartment(departmentNameTextBox.Text);
-        //        return;
-        //    }
-
-        //    departmentIdComboBox.Items.AddRange(ids.ToArray());
-        //    departmentIdComboBox.SelectedIndex = 0;
-        //    if (ids.Count() > 1)
-        //        departmentIdComboBox.DroppedDown = true;
-        //}
-        //public void SetRequesterIds(List<String> ids)
-        //{
-        //    requesterIdComboBox.Items.Clear();
-        //    if (ids.Count() == 0)
-        //    {
-        //        requesterIdComboBox.Text = "";
-        //        DialogResult dialogResult =
-        //            MessageBox.Show($"新しく {requesterNameTextBox.Text} さんのデータを追加しますか？"
-        //                          , "履歴に存在しない社員名が入力されました"
-        //                          , MessageBoxButtons.YesNo
-        //                          , MessageBoxIcon.Question);
-        //        if (dialogResult != DialogResult.Yes) return;
-        //        adapter.AddRequester(requesterNameTextBox.Text);
-        //        return;
-        //    }
-
-        //    requesterIdComboBox.Items.AddRange(ids.ToArray());
-        //    requesterIdComboBox.SelectedIndex = 0;
-        //    if (ids.Count() > 1)
-        //        requesterIdComboBox.DroppedDown = true;
-        //}
-        //public void SetAddRequestResult(String message)
-        //{
-        //    Console.WriteLine($"AddRequest() is {message}.");
-        //}
+        private void SetSucceedLabel(String message)
+        {
+            label1.ForeColor = Color.Black;
+            label1.Text = $"Success: Request added.";
+        }
+        private void SetFailureLabel(String message)
+        {
+            label1.ForeColor = Color.Red;
+            label1.Text = $"Failure: {message}";
+        }
     }
 }
