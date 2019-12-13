@@ -20,7 +20,7 @@ namespace com.github.tcc170476.CSACC
         public void Add(Request request)
         {
             var transaction = Gateway.GetTransaction();
-            Gateway.Plan.Insert(
+            var result = Gateway.Plan.Insert(
                   transaction
                 , request.Requester
                 , request.WorkDate
@@ -28,6 +28,9 @@ namespace com.github.tcc170476.CSACC
                 , "work"
                 , ""
                 );
+            if (result.isSucceed())
+                transaction.Commit();
+            transaction.Rollback();
         }
         public void Update(Request request)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.github.tcc170476.CSACC.util;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
         private String TableName = "plan";
         public Plan(OleDbConnection connection) : base(connection) { }
 
-        public void Insert(
+        public Result Insert(
               OleDbTransaction transaction
             , String requester
             , String date
@@ -26,7 +27,12 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             var orderText = $"INSERT INTO {TableName}({rows}) VALUES ({values})";
             var command = new OleDbCommand(orderText, Connection);
             command.Transaction = transaction;
-            command.ExecuteNonQuery();
+            try {
+                command.ExecuteNonQuery();
+                return new Success();
+            } catch (OleDbException) {
+                return new Failure();
+            }
         }
     }
 }
