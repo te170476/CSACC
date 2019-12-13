@@ -11,11 +11,14 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
     class Connector
     {
         private OleDbConnection Connection;
+        public Plan Plan;
         public Connector()
         {
             string strAccessConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=CSDB.accdb";
             Connection = new OleDbConnection(strAccessConn);
             Connection.Connect();
+
+            Plan = new Plan(Connection);
         }
         public OleDbTransaction GetTransaction()
         {

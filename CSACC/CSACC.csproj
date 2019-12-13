@@ -49,6 +49,8 @@
     <Compile Include="adapter\Adapter.cs" />
     <Compile Include="adapter\controller\Request.cs" />
     <Compile Include="adapter\gateway\Connector.cs" />
+    <Compile Include="adapter\gateway\AbsGateway.cs" />
+    <Compile Include="adapter\gateway\Plan.cs" />
     <Compile Include="adapter\IView.cs" />
     <Compile Include="extension\OleDbExtensions.cs" />
     <Compile Include="Form1.cs">
@@ -84,6 +86,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="adapter\gateway\entity\" />
     <Folder Include="adapter\view\" />
     <Folder Include="entity\" />
   </ItemGroup>

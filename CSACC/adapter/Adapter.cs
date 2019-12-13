@@ -19,7 +19,15 @@ namespace com.github.tcc170476.CSACC
         }
         public void Add(Request request)
         {
-
+            var transaction = Gateway.GetTransaction();
+            Gateway.Plan.Insert(
+                  transaction
+                , request.Requester
+                , request.WorkDate
+                , request.WorkTime
+                , "work"
+                , ""
+                );
         }
         public void Update(Request request)
         {

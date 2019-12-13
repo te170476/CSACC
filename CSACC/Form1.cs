@@ -14,11 +14,11 @@ namespace com.github.tcc170476.CSACC
 {
     public partial class Form1 : Form, IView
     {
-        Adapter adapter;
+        Adapter Adapter;
         public Form1()
         {
             InitializeComponent();
-            adapter = new Adapter(this);
+            Adapter = new Adapter(this);
         }
 
         private void ReadButton_Click(object sender, EventArgs e)
@@ -56,13 +56,13 @@ namespace com.github.tcc170476.CSACC
             switch (request.Division)
             {
                 case "新規":
-                    //adapter.AddRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+                    Adapter.Add(request);
                     break;
                 case "変更":
-                    //adapter.UpdateRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+                    Adapter.Update(request);
                     break;
                 case "取消":
-
+                    Adapter.Delete(request);
                     break;
             }
         }
