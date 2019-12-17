@@ -77,7 +77,7 @@ namespace com.github.tcc170476.CSACC
             {
                 var sets  = String.Join(", ", SetDictionary.Select(it=> $"{c.ToSQLKey(it.Key)} = {it.Value}"));
                 var where = String.Join("and", Operations.Select(it => it.ToString()));
-                var order = $"UPDATE {TableName} SET {sets} WHERE {where}";
+                var order = $"UPDATE {c.ToSQLKey(TableName)} SET {sets} WHERE {where}";
                 return new OleDbCommand(order, connection);
             }
             public Update Set(String key, String value)
@@ -86,6 +86,26 @@ namespace com.github.tcc170476.CSACC
                 return this;
             }
             public Update Where(ISQLOperation operation)
+            {
+                Operations.Add(operation);
+                return this;
+            }
+        }
+        public class Delete
+        {
+            private String TableName;
+            private List<ISQLOperation> Operations = new List<ISQLOperation>();
+            public Delete(String tableName)
+            {
+                TableName = tableName;
+            }
+            public OleDbCommand Build(OleDbConnection connection)
+            {
+                var where = String.Join("and", Operations.Select(it => it.ToString()));
+                var order = $"DELETE FROM {c.ToSQLKey(TableName)} WHERE {where}";
+                return new OleDbCommand(order, connection);
+            }
+            public Delete Where(ISQLOperation operation)
             {
                 Operations.Add(operation);
                 return this;

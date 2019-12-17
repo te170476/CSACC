@@ -33,7 +33,6 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
 
             var command = builder.Build(Connection);
             command.Transaction = transaction;
-
             try {
                 command.ExecuteNonQuery();
 
@@ -58,7 +57,6 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
                 .Set("time", time)
                 .Where(new Equal("id", id))
                 .Build(Connection);
-
             command.Transaction = transaction;
             try {
                 command.ExecuteNonQuery();
@@ -73,10 +71,9 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             , int id
             )
         {
-            var orderText
-                = $" DELETE FROM {TableName}"
-                + $" WHERE  `id` = {id}";
-            var command = new OleDbCommand(orderText, Connection);
+            var command = new SQLBuilder.Delete(TableName)
+                .Where(new Equal("id", id))
+                .Build(Connection);
             command.Transaction = transaction;
             try {
                 command.ExecuteNonQuery();
