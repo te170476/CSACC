@@ -22,10 +22,15 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             , String restplanId
             )
         {
-            var rows   = "requester, `date`, `time`, `action`, restplan_id";
-            var values = $"'{requester}', '{date}', '{time}', '{action}', '{restplanId}'";
-            var orderText = $"INSERT INTO {TableName}({rows}) VALUES ({values})";
-            var command = new OleDbCommand(orderText, Connection);
+            var command = new SQLBuilder.Insert(TableName)
+                .Add("requester"  , requester )
+                .Add("date"       , date      )
+                .Add("time"       , time      )
+                .Add("action"     , action    )
+                .Add("restplan_id", restplanId)
+                .Build(Connection);
+
+
             command.Transaction = transaction;
             try {
                 command.ExecuteNonQuery();
@@ -93,12 +98,13 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             var command = new OleDbCommand(orderText, Connection);
             command.Transaction = transaction;
             try {
-                var result = int.Parse(command.ExecuteScalar().ToString()); // TODO: Error.
-                return new Some<int>(result);
+                var result = command.ExecuteScalar();
+                if(result != null)
+                    return new Some<int>(int.Parse(result.ToString()));
             } catch (OleDbException e) {
                 Console.WriteLine(e.StackTrace);
-                return new None<int>();
             }
+            return new None<int>();
         }
         public Option<int> SelectRestPlanId(
               OleDbTransaction transaction
