@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace com.github.tcc170476.CSACC
 {
+    // TODO: SQLConverter -> SQL.Key(String value), SQL.Value(String value)
+    // TODO: Insert.Build() -> SQLBuilder(new Insert()).Build()
     public class SQLConverter
     {
         private static SQLConverter instance = new SQLConverter();
