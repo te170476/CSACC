@@ -64,15 +64,12 @@ namespace com.github.tcc170476.CSACC
                 );
             if (workPlanId.isEmpty()) { failure(); return; }
 
-            var restPlanId = Gateway.Plan.SelectRestPlanId(
-                  transaction
-                , workPlanId.get().ToString()
-                );
+            var restPlanId = Gateway.Plan.SelectRestPlanId(transaction, workPlanId.get());
             if (restPlanId.isEmpty()) { failure(); return; }
 
             var result = Gateway.Plan.Update(
                 transaction
-              , restPlanId.get().ToString()
+              , restPlanId.get()
               , request.RestDate
               , request.RestTime
               );
@@ -101,22 +98,13 @@ namespace com.github.tcc170476.CSACC
                 );
             if (workPlanId.isEmpty()) { failure(); return; }
 
-            var restPlanId = Gateway.Plan.SelectRestPlanId(
-                  transaction
-                , workPlanId.get().ToString()
-                );
+            var restPlanId = Gateway.Plan.SelectRestPlanId(transaction, workPlanId.get());
             if (restPlanId.isEmpty()) { failure(); return; }
 
-            var restPlanDeleteResult = Gateway.Plan.Delete(
-                transaction
-              , restPlanId.get().ToString()
-              );
+            var restPlanDeleteResult = Gateway.Plan.Delete(transaction, restPlanId.get());
             if (restPlanDeleteResult.isFailure()) { failure(); return; }
 
-            var workPlanDeleteResult = Gateway.Plan.Delete(
-                transaction
-              , workPlanId.get().ToString()
-              );
+            var workPlanDeleteResult = Gateway.Plan.Delete(transaction, workPlanId.get());
             if (workPlanDeleteResult.isFailure()) { failure(); return; }
             success();
 

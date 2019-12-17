@@ -1,4 +1,5 @@
-﻿using com.github.tcc170476.CSACC.util;
+﻿using com.github.tcc170476.CSACC.SQLOperator;
+using com.github.tcc170476.CSACC.util;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -22,16 +23,17 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             , String restplanId
             )
         {
-            var command = new SQLBuilder.Insert(TableName)
-                .Add("requester"  , requester )
-                .Add("date"       , date      )
-                .Add("time"       , time      )
-                .Add("action"     , action    )
-                .Add("restplan_id", restplanId)
-                .Build(Connection);
+            var builder = new SQLBuilder.Insert(TableName)
+                .Add("requester", requester )
+                .Add("date"     , date      )
+                .Add("time"     , time      )
+                .Add("action"   , action    );
+            if (restplanId != "")
+                builder.Add("restplan_id", restplanId);
 
-
+            var command = builder.Build(Connection);
             command.Transaction = transaction;
+
             try {
                 command.ExecuteNonQuery();
 
@@ -46,16 +48,17 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
         }
         public Result Update(
               OleDbTransaction transaction
-            , String id
+            , int id
             , String date
             , String time
             )
         {
-            var orderText
-                = $" UPDATE {TableName}"
-                + $" SET    `date` = '{date}', `time` = '{time}'"
-                + $" WHERE  `id` = {id}";
-            var command = new OleDbCommand(orderText, Connection);
+            var command = new SQLBuilder.Update(TableName)
+                .Set("date", date)
+                .Set("time", time)
+                .Where(new Equal("id", id))
+                .Build(Connection);
+
             command.Transaction = transaction;
             try {
                 command.ExecuteNonQuery();
@@ -67,7 +70,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
         }
         public Result Delete(
               OleDbTransaction transaction
-            , String id
+            , int id
             )
         {
             var orderText
@@ -108,7 +111,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
         }
         public Option<int> SelectRestPlanId(
               OleDbTransaction transaction
-            , String id
+            , int id
             )
         {
             var orderText
@@ -118,12 +121,13 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             var command = new OleDbCommand(orderText, Connection);
             command.Transaction = transaction;
             try {
-                var result = int.Parse(command.ExecuteScalar().ToString());
-                return new Some<int>(result);
+                var result = command.ExecuteScalar();
+                if (result != null)
+                    return new Some<int>(int.Parse(result.ToString()));
             } catch (OleDbException e) {
                 Console.WriteLine(e.StackTrace);
-                return new None<int>();
             }
+            return new None<int>();
         }
     }
 }
