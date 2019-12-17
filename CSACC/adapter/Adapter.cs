@@ -19,7 +19,7 @@ namespace com.github.tcc170476.CSACC
         {
             View = view;
         }
-        public void Add(Request request)
+        public void Request(AddRequest request)
         {
             var transaction = Gateway.GetTransaction();
             var restPlanId = Gateway.Plan.Insert(
@@ -53,7 +53,7 @@ namespace com.github.tcc170476.CSACC
                 View.OnAddRequest(new Failure());
             }
         }
-        public void Update(Request request)
+        public void Request(UpdateRequest request)
         {
             var transaction = Gateway.GetTransaction();
             var workPlanId = Gateway.Plan.SelectId(
@@ -90,7 +90,7 @@ namespace com.github.tcc170476.CSACC
                 View.OnUpdateRequest(new Failure());
             }
         }
-        public void Delete(Request request)
+        public void Request(DeleteRequest request)
         {
             var transaction = Gateway.GetTransaction();
             var workPlanId = Gateway.Plan.SelectId(

@@ -43,27 +43,48 @@ namespace com.github.tcc170476.CSACC
         }
         private void ApplyButton_Click(object sender, EventArgs e)
         {
-            var request = new Request(
-                  writerIdComboBox.Text
-                , departmentIdComboBox.Text
-                , requestDivisionComboBox.Text
-                , requesterIdComboBox.Text
-                , workDatePicker.Text
-                , workTimeComboBox.Text
-                , restDatePicker.Text
-                , restTimeComboBox.Text
-                );
+            var writerId     = writerIdComboBox.Text;
+            var departmentId = departmentIdComboBox.Text;
+            var requesterId  = requesterIdComboBox.Text;
 
-            switch (request.Division)
+            switch (requestDivisionComboBox.Text)
             {
                 case "新規":
-                    Adapter.Add(request);
+                    {
+                        var request = new AddRequest(
+                          writerId
+                        , departmentId
+                        , requesterId
+                        , workDatePicker.Text
+                        , workTimeComboBox.Text
+                        , restDatePicker.Text
+                        , restTimeComboBox.Text);
+                        Adapter.Request(request);
+                    }
                     break;
                 case "変更":
-                    Adapter.Update(request);
+                    {
+                        var request = new UpdateRequest(
+                              writerId
+                            , departmentId
+                            , requesterId
+                            , workDatePicker.Text
+                            , workTimeComboBox.Text
+                            , restDatePicker.Text
+                            , restTimeComboBox.Text);
+                        Adapter.Request(request);
+                    }
                     break;
                 case "取消":
-                    Adapter.Delete(request);
+                    {
+                        var request = new DeleteRequest(
+                              writerId
+                            , departmentId
+                            , requesterId
+                            , workDatePicker.Text
+                            , workTimeComboBox.Text);
+                        Adapter.Request(request);
+                    }
                     break;
             }
         }
@@ -77,13 +98,13 @@ namespace com.github.tcc170476.CSACC
         public void OnUpdateRequest(Result result)
         {
             if (result.isFailure())
-            { SetFailureLabel("Request is not updated."); return; }
+                { SetFailureLabel("Request is not updated."); return; }
             SetSucceedLabel("Request updated.");
         }
         public void OnDeleteRequest(Result result)
         {
             if (result.isFailure())
-            { SetFailureLabel("Request is not deleted."); return; }
+                { SetFailureLabel("Request is not deleted."); return; }
             SetSucceedLabel("Request deleted.");
         }
 
