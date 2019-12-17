@@ -11,5 +11,6 @@ namespace com.github.tcc170476.CSACC.adapter
     {
         void OnAddRequest(Result result);
         void OnUpdateRequest(Result result);
+        void OnDeleteRequest(Result result);
     }
 }

@@ -92,7 +92,44 @@ namespace com.github.tcc170476.CSACC
         }
         public void Delete(Request request)
         {
+            var transaction = Gateway.GetTransaction();
+            var workPlanId = Gateway.Plan.SelectId(
+                  transaction
+                , request.Requester
+                , request.WorkDate
+                , request.WorkTime
+                );
+            if (workPlanId.isEmpty()) { failure(); return; }
 
+            var restPlanId = Gateway.Plan.SelectRestPlanId(
+                  transaction
+                , workPlanId.get().ToString()
+                );
+            if (restPlanId.isEmpty()) { failure(); return; }
+
+            var restPlanDeleteResult = Gateway.Plan.Delete(
+                transaction
+              , restPlanId.get().ToString()
+              );
+            if (restPlanDeleteResult.isFailure()) { failure(); return; }
+
+            var workPlanDeleteResult = Gateway.Plan.Delete(
+                transaction
+              , workPlanId.get().ToString()
+              );
+            if (workPlanDeleteResult.isFailure()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnDeleteRequest(new Success());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnDeleteRequest(new Failure());
+            }
         }
     }
 }

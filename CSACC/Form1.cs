@@ -80,6 +80,13 @@ namespace com.github.tcc170476.CSACC
             { SetFailureLabel("Request is not updated."); return; }
             SetSucceedLabel("Request updated.");
         }
+        public void OnDeleteRequest(Result result)
+        {
+            if (result.isFailure())
+            { SetFailureLabel("Request is not deleted."); return; }
+            SetSucceedLabel("Request deleted.");
+        }
+
 
 
 
@@ -87,7 +94,7 @@ namespace com.github.tcc170476.CSACC
         private void SetSucceedLabel(String message)
         {
             label1.ForeColor = Color.Black;
-            label1.Text = $"Success: Request added.";
+            label1.Text = $"Success: {message}";
         }
         private void SetFailureLabel(String message)
         {
