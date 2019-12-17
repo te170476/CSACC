@@ -52,13 +52,13 @@ namespace com.github.tcc170476.CSACC
                 case "新規":
                     {
                         var request = new AddRequest(
-                          writerId
-                        , departmentId
-                        , requesterId
-                        , workDatePicker.Text
-                        , workTimeComboBox.Text
-                        , restDatePicker.Text
-                        , restTimeComboBox.Text);
+                              writerId
+                            , departmentId
+                            , requesterId
+                            , workDatePicker.Text
+                            , workTimeComboBox.Text
+                            , restDatePicker.Text
+                            , restTimeComboBox.Text);
                         Adapter.Request(request);
                     }
                     break;

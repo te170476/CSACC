@@ -66,10 +66,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
                 return new Failure();
             }
         }
-        public Result Delete(
-              OleDbTransaction transaction
-            , int id
-            )
+        public Result Delete(OleDbTransaction transaction, int id)
         {
             var command = new SQLBuilder.Delete(TableName)
                 .Where(new Equal("id", id))
@@ -106,10 +103,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             }
             return new None<int>();
         }
-        public Option<int> SelectRestPlanId(
-              OleDbTransaction transaction
-            , int id
-            )
+        public Option<int> SelectRestPlanId(OleDbTransaction transaction, int id)
         {
             var orderText
                 = $"SELECT restplan_id "
