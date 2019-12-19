@@ -110,8 +110,6 @@ namespace com.github.tcc170476.CSACC
 
 
 
-
-
         private void SetSucceedLabel(String message)
         {
             label1.ForeColor = Color.Black;

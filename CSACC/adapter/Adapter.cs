@@ -28,7 +28,7 @@ namespace com.github.tcc170476.CSACC
                 , request.RestDate
                 , request.RestTime
                 , "rest"
-                , ""
+                , new None<int>()
                 );
             if (restPlanId.isEmpty()) { failure(); return; }
             var workPlanId = Gateway.Plan.Insert(
@@ -37,7 +37,7 @@ namespace com.github.tcc170476.CSACC
                 , request.WorkDate
                 , request.WorkTime
                 , "work"
-                , restPlanId.get().ToString()
+                , new Some<int>(restPlanId.get())
                 );
             if (workPlanId.isEmpty()) { failure(); return; }
             success();

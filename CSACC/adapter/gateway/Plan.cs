@@ -20,7 +20,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             , String date
             , String time
             , String action
-            , String restplanId
+            , Option<int> restplanId
             )
         {
             var builder = new SQLBuilder.Insert(TableName)
@@ -28,8 +28,8 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
                 .Add("date"     , date      )
                 .Add("time"     , time      )
                 .Add("action"   , action    );
-            if (restplanId != "")
-                builder.Add("restplan_id", restplanId);
+            if (restplanId.isDefined())
+                builder.Add("restplan_id", restplanId.get());
 
             var command = builder.Build(Connection);
             command.Transaction = transaction;
