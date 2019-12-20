@@ -31,7 +31,7 @@ namespace com.github.tcc170476.CSACC
         }
         private void GetWriterIdButton_Click(object sender, EventArgs e)
         {
-            //adapter.GetWriterIdFromName(writerNameTextBox.Text);
+            Adapter.GetWriterId(writerNameTextBox.Text);
         }
         private void GetDepartmentIdButton_Click(object sender, EventArgs e)
         {
