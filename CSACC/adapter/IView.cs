@@ -9,8 +9,15 @@ namespace com.github.tcc170476.CSACC.adapter
 {
     interface IView
     {
-        void OnAddRequest(Result result);
-        void OnUpdateRequest(Result result);
-        void OnDeleteRequest(Result result);
+        void OnSuccessAddRequester(int employeeId);
+        void OnFailureAddRequester();
+        void OnSuccessGetRequesterId(int employeeId);
+        void OnFailureGetRequesterId();
+        void OnSuccessAddRequest();
+        void OnFailureAddRequest();
+        void OnSuccessUpdateRequest();
+        void OnFailureUpdateRequest();
+        void OnSuccessDeleteRequest();
+        void OnFailureDeleteRequest();
     }
 }

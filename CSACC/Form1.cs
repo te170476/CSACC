@@ -40,6 +40,7 @@ namespace com.github.tcc170476.CSACC
         private void GetRequesterIdButton_Click(object sender, EventArgs e)
         {
             //adapter.GetRequesterIdFromName(requesterNameTextBox.Text);
+            Adapter.GetRequesterId(requesterNameTextBox.Text);
         }
         private void ApplyButton_Click(object sender, EventArgs e)
         {
@@ -89,25 +90,51 @@ namespace com.github.tcc170476.CSACC
             }
         }
 
-        public void OnAddRequest(Result result)
+
+        public void OnSuccessAddRequester(int employeeId)
         {
-            if (result.isFailure())
-                { SetFailureLabel("Request is not added."); return; }
-            SetSucceedLabel("Request added.");
+            SetSucceedLabel("Succeed to add requester.");
+            requesterIdComboBox.Text = employeeId.ToString();
         }
-        public void OnUpdateRequest(Result result)
+        public void OnFailureAddRequester()
         {
-            if (result.isFailure())
-                { SetFailureLabel("Request is not updated."); return; }
-            SetSucceedLabel("Request updated.");
+            SetFailureLabel("Failed to add requester.");
         }
-        public void OnDeleteRequest(Result result)
+        public void OnSuccessGetRequesterId(int employeeId)
         {
-            if (result.isFailure())
-                { SetFailureLabel("Request is not deleted."); return; }
-            SetSucceedLabel("Request deleted.");
+            SetSucceedLabel("get requester id.");
+            requesterIdComboBox.Text = employeeId.ToString();
+        }
+        public void OnFailureGetRequesterId()
+        {
+            SetFailureLabel("get requester id.");
+            Adapter.AddRequester(requesterNameTextBox.Text);
         }
 
+        public void OnSuccessAddRequest()
+        {
+            SetSucceedLabel("Request added.");
+        }
+        public void OnFailureAddRequest()
+        {
+            SetFailureLabel("Request is not added.");
+        }
+        public void OnSuccessUpdateRequest()
+        {
+            SetSucceedLabel("Request updated.");
+        }
+        public void OnFailureUpdateRequest()
+        {
+            SetFailureLabel("Request is not updated.");
+        }
+        public void OnSuccessDeleteRequest()
+        {
+            SetSucceedLabel("Request deleted.");
+        }
+        public void OnFailureDeleteRequest()
+        {
+            SetFailureLabel("Request is not deleted.");
+        }
 
 
         private void SetSucceedLabel(String message)

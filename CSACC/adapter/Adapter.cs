@@ -19,6 +19,42 @@ namespace com.github.tcc170476.CSACC
         {
             View = view;
         }
+        public void AddRequester(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var employeeId = Gateway.Employee.Insert(transaction, name);
+            if (employeeId.isEmpty()) { failure(); }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessAddRequester(employeeId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureAddRequester();
+            }
+        }
+        public void GetRequesterId(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var employeeId = Gateway.Employee.SelectId(transaction, name);
+            if (employeeId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessGetRequesterId(employeeId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureGetRequesterId();
+            }
+        }
         public void Request(AddRequest request)
         {
             var transaction = Gateway.GetTransaction();
@@ -45,12 +81,12 @@ namespace com.github.tcc170476.CSACC
             void success()
             {
                 transaction.Commit();
-                View.OnAddRequest(new Success());
+                View.OnSuccessAddRequest();
             }
             void failure()
             {
                 transaction.Rollback();
-                View.OnAddRequest(new Failure());
+                View.OnFailureAddRequest();
             }
         }
         public void Request(UpdateRequest request)
@@ -79,12 +115,12 @@ namespace com.github.tcc170476.CSACC
             void success()
             {
                 transaction.Commit();
-                View.OnUpdateRequest(new Success());
+                View.OnSuccessUpdateRequest();
             }
             void failure()
             {
                 transaction.Rollback();
-                View.OnUpdateRequest(new Failure());
+                View.OnFailureUpdateRequest();
             }
         }
         public void Request(DeleteRequest request)
@@ -111,12 +147,12 @@ namespace com.github.tcc170476.CSACC
             void success()
             {
                 transaction.Commit();
-                View.OnDeleteRequest(new Success());
+                View.OnSuccessDeleteRequest();
             }
             void failure()
             {
                 transaction.Rollback();
-                View.OnDeleteRequest(new Failure());
+                View.OnFailureDeleteRequest();
             }
         }
     }

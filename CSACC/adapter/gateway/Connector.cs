@@ -12,6 +12,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
     {
         private OleDbConnection Connection;
         public Plan Plan;
+        public Employee Employee;
         public Connector()
         {
             string strAccessConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=CSDB.accdb";
@@ -19,6 +20,7 @@ namespace com.github.tcc170476.CSACC.adapter.gateway
             Connection.Connect();
 
             Plan = new Plan(Connection);
+            Employee = new Employee(Connection);
         }
         public OleDbTransaction GetTransaction()
         {
