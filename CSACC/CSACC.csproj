@@ -50,6 +50,7 @@
     <Compile Include="adapter\controller\Request.cs" />
     <Compile Include="adapter\gateway\Connector.cs" />
     <Compile Include="adapter\gateway\AbsGateway.cs" />
+    <Compile Include="adapter\gateway\Department.cs" />
     <Compile Include="adapter\gateway\Employee.cs" />
     <Compile Include="adapter\gateway\Plan.cs" />
     <Compile Include="adapter\IView.cs" />

@@ -19,17 +19,91 @@ namespace com.github.tcc170476.CSACC
         {
             View = view;
         }
-        public void AddRequester(String name)
+
+
+        public void AddWriter(String name)
         {
             var transaction = Gateway.GetTransaction();
-            var employeeId = Gateway.Employee.Insert(transaction, name);
-            if (employeeId.isEmpty()) { failure(); }
+            var writerId = Gateway.Employee.Insert(transaction, name);
+            if (writerId.isEmpty()) { failure(); return; }
             success();
 
             void success()
             {
                 transaction.Commit();
-                View.OnSuccessAddRequester(employeeId.get());
+                View.OnSuccessAddWriter(writerId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureAddWriter();
+            }
+        }
+        public void GetWriterId(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var writerId = Gateway.Employee.SelectId(transaction, name);
+            if (writerId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessGetWriterId(writerId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureGetWriterId();
+            }
+        }
+        public void AddDepartment(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var departmentId = Gateway.Department.Insert(transaction, name);
+            if (departmentId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessAddDepartment(departmentId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureAddDepartment();
+            }
+        }
+        public void GetDepartmentId(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var departmentId = Gateway.Department.SelectId(transaction, name);
+            if (departmentId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessGetDepartmentId(departmentId.get());
+            }
+            void failure()
+            {
+                transaction.Rollback();
+                View.OnFailureGetDepartmentId();
+            }
+        }
+        public void AddRequester(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var requesterId = Gateway.Employee.Insert(transaction, name);
+            if (requesterId.isEmpty()) { failure(); return; }
+            success();
+
+            void success()
+            {
+                transaction.Commit();
+                View.OnSuccessAddRequester(requesterId.get());
             }
             void failure()
             {
@@ -40,14 +114,14 @@ namespace com.github.tcc170476.CSACC
         public void GetRequesterId(String name)
         {
             var transaction = Gateway.GetTransaction();
-            var employeeId = Gateway.Employee.SelectId(transaction, name);
-            if (employeeId.isEmpty()) { failure(); return; }
+            var requesterId = Gateway.Employee.SelectId(transaction, name);
+            if (requesterId.isEmpty()) { failure(); return; }
             success();
 
             void success()
             {
                 transaction.Commit();
-                View.OnSuccessGetRequesterId(employeeId.get());
+                View.OnSuccessGetRequesterId(requesterId.get());
             }
             void failure()
             {

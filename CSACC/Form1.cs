@@ -35,11 +35,10 @@ namespace com.github.tcc170476.CSACC
         }
         private void GetDepartmentIdButton_Click(object sender, EventArgs e)
         {
-            //adapter.GetDepartmentIdFromName(departmentNameTextBox.Text);
+            Adapter.GetDepartmentId(departmentNameTextBox.Text);
         }
         private void GetRequesterIdButton_Click(object sender, EventArgs e)
         {
-            //adapter.GetRequesterIdFromName(requesterNameTextBox.Text);
             Adapter.GetRequesterId(requesterNameTextBox.Text);
         }
         private void ApplyButton_Click(object sender, EventArgs e)
@@ -90,20 +89,57 @@ namespace com.github.tcc170476.CSACC
             }
         }
 
-
-        public void OnSuccessAddRequester(int employeeId)
+        public void OnSuccessAddWriter(int writerId)
+        {
+            SetSucceedLabel("Succeed to add writer.");
+            requesterIdComboBox.Text = writerId.ToString();
+        }
+        public void OnFailureAddWriter()
+        {
+            SetFailureLabel("Failed to add writer.");
+        }
+        public void OnSuccessGetWriterId(int writerId)
+        {
+            SetSucceedLabel("get writer id.");
+            requesterIdComboBox.Text = writerId.ToString();
+        }
+        public void OnFailureGetWriterId()
+        {
+            SetFailureLabel("get writer id.");
+            Adapter.AddRequester(requesterNameTextBox.Text);
+        }
+        public void OnSuccessAddDepartment(int departmentId)
+        {
+            SetSucceedLabel("Succeed to add department.");
+            departmentIdComboBox.Text = departmentId.ToString();
+        }
+        public void OnFailureAddDepartment()
+        {
+            SetFailureLabel("Failed to add department.");
+        }
+        public void OnSuccessGetDepartmentId(int departmentId)
+        {
+            SetSucceedLabel("get department id.");
+            departmentIdComboBox.Text = departmentId.ToString();
+        }
+        public void OnFailureGetDepartmentId()
+        {
+            SetFailureLabel("get department id.");
+            Adapter.AddDepartment(departmentNameTextBox.Text);
+        }
+        public void OnSuccessAddRequester(int requesterId)
         {
             SetSucceedLabel("Succeed to add requester.");
-            requesterIdComboBox.Text = employeeId.ToString();
+            requesterIdComboBox.Text = requesterId.ToString();
         }
         public void OnFailureAddRequester()
         {
             SetFailureLabel("Failed to add requester.");
         }
-        public void OnSuccessGetRequesterId(int employeeId)
+        public void OnSuccessGetRequesterId(int requesterId)
         {
             SetSucceedLabel("get requester id.");
-            requesterIdComboBox.Text = employeeId.ToString();
+            requesterIdComboBox.Text = requesterId.ToString();
         }
         public void OnFailureGetRequesterId()
         {
@@ -148,5 +184,28 @@ namespace com.github.tcc170476.CSACC
             label1.Text = $"Failure: {message}";
         }
 
+
+        void usage()
+        {
+            var builder = new Builder();
+            var str = "testStr";
+            var dateTime = new DateTime();
+
+            var convertedStr = builder.Convert(str);
+            var convertedDateTime = builder.Convert(dateTime);
+        }
     }
+
+    class Builder
+    {
+        public String Convert(String value)
+        {
+            return $"'{value}'";
+        }
+        public String Convert(DateTime value)
+        {
+            return $"#{value}#";
+        }
+    }
+
 }
