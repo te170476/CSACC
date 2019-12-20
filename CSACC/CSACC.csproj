@@ -54,6 +54,7 @@
     <Compile Include="adapter\gateway\Employee.cs" />
     <Compile Include="adapter\gateway\Plan.cs" />
     <Compile Include="adapter\IView.cs" />
+    <Compile Include="adapter\Presenter.cs" />
     <Compile Include="extension\OleDbExtensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -28,6 +28,55 @@ namespace com.github.tcc170476.CSACC
             if (dialog.ShowDialog() != DialogResult.OK) return;
 
             Console.WriteLine($"csv {dialog.FileName}");
+
+            var lines = System.IO.File.ReadAllLines(dialog.FileName, Encoding.Default);
+            foreach(String line in lines)
+            {
+                var columns = line.Split(',');
+                var csvLine = new CSVLine(columns);
+                var writerId = csvLine.Writer;
+
+                switch (csvLine.RequestDivision)
+                {
+                    case "新規":
+                        {
+                            var request = new AddRequest(
+                                  writerId
+                                , departmentId
+                                , requesterId
+                                , workDatePicker.Text
+                                , workTimeComboBox.Text
+                                , restDatePicker.Text
+                                , restTimeComboBox.Text);
+                            Adapter.Request(request);
+                        }
+                        break;
+                    case "変更":
+                        {
+                            var request = new UpdateRequest(
+                                  writerId
+                                , departmentId
+                                , requesterId
+                                , workDatePicker.Text
+                                , workTimeComboBox.Text
+                                , restDatePicker.Text
+                                , restTimeComboBox.Text);
+                            Adapter.Request(request);
+                        }
+                        break;
+                    case "取消":
+                        {
+                            var request = new DeleteRequest(
+                                  writerId
+                                , departmentId
+                                , requesterId
+                                , workDatePicker.Text
+                                , workTimeComboBox.Text);
+                            Adapter.Request(request);
+                        }
+                        break;
+                }
+            }
         }
         private void GetWriterIdButton_Click(object sender, EventArgs e)
         {

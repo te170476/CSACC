@@ -20,7 +20,6 @@ namespace com.github.tcc170476.CSACC
             View = view;
         }
 
-
         public void AddWriter(String name)
         {
             var transaction = Gateway.GetTransaction();
