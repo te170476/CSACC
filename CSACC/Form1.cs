@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSACC.input.FromCSV;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,9 @@ namespace CSACC
         public Form1()
         {
             InitializeComponent();
+
+            new CsvReader().read(Config.CsvPath)
+                .ForEach(it=> Console.WriteLine(it));
         }
     }
 }
