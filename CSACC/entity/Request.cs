@@ -8,20 +8,20 @@ namespace CSACC.entity
 {
     class Request
     {
-        public String   Requester   { get; protected set; }
-        public DateTime WorkDate    { get; protected set; }
-        public String   WorkTime    { get; protected set; }
-        public DateTime RestDate    { get; protected set; }
-        public String   RestTime    { get; protected set; }
-        public String   Remarks     { get; protected set; }
+        public String           Requester   { get; protected set; }
+        public DateTime         WorkDate    { get; protected set; }
+        public WorkTimeDivision WorkTime    { get; protected set; }
+        public DateTime         RestDate    { get; protected set; }
+        public WorkTimeDivision RestTime    { get; protected set; }
+        public String           Remarks     { get; protected set; }
 
         public Request(
-              String    requester
-            , DateTime  workDate
-            , String    workTime
-            , DateTime  restDate
-            , String    restTime
-            , String    remarks
+              String            requester
+            , DateTime          workDate
+            , WorkTimeDivision  workTime
+            , DateTime          restDate
+            , WorkTimeDivision  restTime
+            , String            remarks
             )
         {
             Requester   = requester;
