@@ -55,7 +55,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="input\FromCSV.cs" />
+    <Compile Include="input\fromCsv\CsvLine.cs" />
+    <Compile Include="input\fromCsv\CsvReader.cs" />
+    <Compile Include="input\fromCsv\ToEntityConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

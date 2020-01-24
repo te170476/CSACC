@@ -4,24 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSACC.input.FromCSV
+namespace CSACC.input.fromCsv
 {
-    public class CsvReader
-    {
-        public List<CsvLine> read(String path)
-        {
-            var lines = System.IO.File.ReadAllLines(path, Encoding.Default);
-            var csvLines
-                = lines.Skip(1)
-                    .Select(line =>
-                    {
-                        var columns = line.Split(',');
-                        return new CsvLine(columns);
-                    });
-            return csvLines.ToList();
-        }
-    }
-    public class CsvLine
+    class CsvLine
     {
         public String Writer            { get; private set; }
         public String Department        { get; private set; }

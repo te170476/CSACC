@@ -1,4 +1,4 @@
-﻿using CSACC.input.FromCSV;
+﻿using CSACC.input.fromCsv;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
