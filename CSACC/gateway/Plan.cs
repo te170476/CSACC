@@ -28,7 +28,7 @@ namespace CSACC.gateway
                 Time        = time;
                 RestPlan    = restPlan;
             }
-            public override string ToString() { return $"work,{base.ToString()}"; }
+            public override string ToString() { return $"work,{base.ToString()}|{RestPlan}"; }
         }
         public class Rest : Plan
         {

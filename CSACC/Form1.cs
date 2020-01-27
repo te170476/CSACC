@@ -13,13 +13,15 @@ namespace CSACC
 {
     public partial class Form1 : Form
     {
-        private ToEntityConverter converter = new ToEntityConverter();
+        private ToEntityConverter toEntity = new ToEntityConverter();
+        private gateway.FromEntityConverter fromEntity = new gateway.FromEntityConverter();
         public Form1()
         {
             InitializeComponent();
 
             new CsvReader().read(Config.CsvPath)
-                .SelectMany(it=> converter.ToRequest(it))
+                .SelectMany(it=> toEntity.ToRequest(it))
+                .Select(it=> fromEntity.FromRequest(it))
                 .ToList()
                 .ForEach(it=> Console.WriteLine(it));
         }
