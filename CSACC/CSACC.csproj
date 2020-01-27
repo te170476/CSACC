@@ -55,6 +55,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="gateway\Plan.cs" />
     <Compile Include="input\fromCsv\CsvLine.cs" />
     <Compile Include="input\fromCsv\CsvReader.cs" />
     <Compile Include="input\fromCsv\ToEntityConverter.cs" />
