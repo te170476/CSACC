@@ -13,11 +13,14 @@ namespace CSACC
 {
     public partial class Form1 : Form
     {
+        private ToEntityConverter converter = new ToEntityConverter();
         public Form1()
         {
             InitializeComponent();
 
             new CsvReader().read(Config.CsvPath)
+                .SelectMany(it=> converter.ToRequest(it))
+                .ToList()
                 .ForEach(it=> Console.WriteLine(it));
         }
     }
