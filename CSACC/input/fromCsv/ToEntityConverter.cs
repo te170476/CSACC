@@ -11,27 +11,60 @@ namespace CSACC.input.fromCsv
     {
         public List<Request> ToRequest(CsvLine csvLine)
         {
+            var optRequestDivision = getRequestDivision(csvLine.RequestDivision);
+            if(optRequestDivision.isEmpty())
+                throw new ArgumentException("不正な申請区分の届出です。");
+            var requestDivision = optRequestDivision.get();
+
             var workPlanList = ToDateAndTime(csvLine.WorkTimeDivision1, csvLine.HolidayWorkDate1, csvLine.Remarks1);
             workPlanList.AddRange(ToDateAndTime(csvLine.WorkTimeDivision2, csvLine.HolidayWorkDate2, csvLine.Remarks2));
             var restPlanList = ToDateAndTime(csvLine.RestTimeDivision1, csvLine.WeekdayRestDate1, csvLine.Remarks1);
             restPlanList.AddRange(ToDateAndTime(csvLine.RestTimeDivision2, csvLine.WeekdayRestDate2, csvLine.Remarks2));
 
-            if (workPlanList.Count() != restPlanList.Count())
-                throw new ArgumentException("休日出勤届け出と振替休日届け出の分量が合いません。");
-            if (workPlanList.Count() > 2)
-                throw new ArgumentException("一度の届け出において許可されるのは1日分までです。");
+            if (requestDivision != RequestDivision.Delete)
+            {
+                if (workPlanList.Count() != restPlanList.Count())
+                    throw new ArgumentException("休日出勤届け出と振替休日届け出の分量が合いません。");
+                if (workPlanList.Count() > 2)
+                    throw new ArgumentException("一度の届け出において許可されるのは1日分までです。");
+            }
 
-            return workPlanList.Zip(restPlanList
-                , (work, rest) =>
-                    new Request(
-                          csvLine.Requester
-                        , work.Date
-                        , work.Time
-                        , rest.Date
-                        , rest.Time
-                        , work.Remarks)
-                ).ToList();
-
+            switch (requestDivision)
+            {
+                case RequestDivision.Add:
+                    return workPlanList.Zip(restPlanList
+                        , (work, rest) =>
+                        new Request.Add(
+                              csvLine.Requester
+                            , work.Date
+                            , work.Time
+                            , rest.Date
+                            , rest.Time
+                            , work.Remarks)
+                        ).ToList<Request>();
+                case RequestDivision.Update:
+                    return workPlanList.Zip(restPlanList
+                        , (work, rest) =>
+                        new Request.Update(
+                              csvLine.Requester
+                            , work.Date
+                            , work.Time
+                            , rest.Date
+                            , rest.Time
+                            , work.Remarks)
+                        ).ToList<Request>();
+                case RequestDivision.Delete:
+                    return workPlanList.Select(
+                        work =>
+                        new Request.Delete(
+                              csvLine.Requester
+                            , work.Date
+                            , work.Time
+                            , work.Remarks)
+                        ).ToList<Request>();
+                default:
+                    return new List<Request>();
+            }
         }
         private List<DateAndTime> ToDateAndTime(String timeDivision, String _date, String remarks)
         {
@@ -39,6 +72,16 @@ namespace CSACC.input.fromCsv
             var success = DateTime.TryParse(_date, out date);
             if (!success) return new List<DateAndTime>();
             return getWorkTimeDivision(timeDivision).Select(it => new DateAndTime(it, date, remarks)).ToList();
+        }
+        private Option<RequestDivision> getRequestDivision(String str)
+        {
+            switch (str)
+            {
+                case "新規": return new Some<RequestDivision>(RequestDivision.Add);
+                case "変更": return new Some<RequestDivision>(RequestDivision.Update);
+                case "取消": return new Some<RequestDivision>(RequestDivision.Delete);
+                default: return new None<RequestDivision>();
+            }
         }
         private List<WorkTimeDivision> getWorkTimeDivision(String str)
         {
@@ -50,7 +93,7 @@ namespace CSACC.input.fromCsv
                 default: return new List<WorkTimeDivision>() { };
             }
         }
-        class DateAndTime
+        private class DateAndTime
         {
             public WorkTimeDivision Time;
             public DateTime         Date;

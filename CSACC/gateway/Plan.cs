@@ -8,41 +8,52 @@ namespace CSACC.gateway
 {
     class Plan
     {
-        public String Requester { get; protected set; }
-        public String Date      { get; protected set; }
-        public String Time      { get; protected set; }
-        public override string ToString() { return $"{Requester},{Date},{Time}"; }
-
-        public class Work : Plan
+        public class Recode
         {
-            public Rest RestPlan { get; protected set; }
-            public Work(
-                  String    requester
-                , String    date
-                , String    time
-                , Rest      restPlan
-                )
-            {
-                Requester   = requester;
-                Date        = date;
-                Time        = time;
-                RestPlan    = restPlan;
-            }
-            public override string ToString() { return $"work,{base.ToString()}|{RestPlan}"; }
-        }
-        public class Rest : Plan
-        {
-            public Rest(
+            public String Requester { get; protected set; }
+            public String Date { get; protected set; }
+            public String Time { get; protected set; }
+            public Recode(
                   String requester
                 , String date
                 , String time
                 )
             {
-                Requester   = requester;
-                Date        = date;
-                Time        = time;
+                Requester = requester;
+                Date = date;
+                Time = time;
             }
-            public override string ToString() { return $"rest,{base.ToString()}"; }
+            public override string ToString() { return $"{Requester},{Date},{Time}"; }
+        }
+
+        public class Add : Plan
+        {
+            public Recode Work { get; protected set; }
+            public Recode Rest { get; protected set; }
+            public Add(Recode work, Recode rest)
+            {
+                Work = work;
+                Rest = rest;
+            }
+        }
+        public class Update : Plan
+        {
+            public Recode Work { get; protected set; }
+            public Recode Rest { get; protected set; }
+            public Update(Recode work, Recode rest)
+            {
+                Work = work;
+                Rest = rest;
+            }
+        }
+        public class Delete : Plan
+        {
+            public Recode Work { get; protected set; }
+            public Delete(Recode work)
+            {
+                Work = work;
+            }
         }
     }
+    
 }
