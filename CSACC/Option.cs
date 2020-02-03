@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSACC
 {
+    public class Nothing { }
     public interface Option<T>
     {
         T get();
@@ -19,7 +20,7 @@ namespace CSACC
         {
             Value = value;
         }
-        public new T get() { return Value; }
+        public T get() { return Value; }
 
         public bool isDefined() { return true; }
         public bool isEmpty() { return !isDefined(); }
@@ -31,25 +32,41 @@ namespace CSACC
         {
             Message = message;
         }
-        public new T get() { throw new MissingFieldException("type None: has not Value."); }
+        public T get() { throw new MissingFieldException("type None: has not Value."); }
         public bool isDefined() { return false; }
         public bool isEmpty() { return !isDefined(); }
         public String getMessage() { return Message; }
     }
 
-    public interface Result
+    public interface Either<L, R>
     {
-        Boolean isSucceed();
-        Boolean isFailure();
+        R getRight();
+        L getLeft();
+        bool isRight();
+        bool isLeft();
     }
-    public class Success : Result
+    public class Left<L, R> : Either<L, R>
     {
-        public bool isSucceed() { return true; }
-        public bool isFailure() { return false; }
+        private L Value;
+        public Left(L value)
+        {
+            Value = value;
+        }
+        public R getRight() { throw new MissingFieldException("type Left: has not Right."); }
+        public L getLeft() { return Value; }
+        public bool isRight() { return false; }
+        public bool isLeft() { return true; }
     }
-    public class Failure : Result
+    public class Right<L, R> : Either<L, R>
     {
-        public bool isSucceed() { return false; }
-        public bool isFailure() { return true; }
+        private R Value;
+        public Right(R value)
+        {
+            Value = value;
+        }
+        public R getRight() { return Value; }
+        public L getLeft() { throw new MissingFieldException("type Right: has not Left."); }
+        public bool isRight() { return true; }
+        public bool isLeft() { return false; }
     }
 }
