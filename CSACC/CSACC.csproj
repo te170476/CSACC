@@ -50,6 +50,8 @@
     <Compile Include="entity\Request.cs" />
     <Compile Include="entity\RequestDivision.cs" />
     <Compile Include="entity\WorkTimeDivision.cs" />
+    <Compile Include="extension\OleDbCommandExtension.cs" />
+    <Compile Include="extension\ParseExtension.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

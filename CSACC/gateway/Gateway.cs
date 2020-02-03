@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSACC.extension;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
@@ -16,42 +17,46 @@ namespace CSACC.gateway
             Connection.Open();
         }
 
-        public int Apply(Plan plan)
-        {
-            if (plan is Plan.Add)    return Apply(plan as Plan.Add);
-            if (plan is Plan.Update) return Apply(plan as Plan.Update);
-            if (plan is Plan.Delete) return Apply(plan as Plan.Delete);
-            throw new Exception(); // TODO: Option<int>
-        }
-        public int Apply(Plan.Add addPlan)
+        public Option<int> Apply(Plan plan)
         {
             var transaction = Connection.BeginTransaction();
+            Option<int> result = new None<int>();
+            if (plan is Plan.Add)    result = Apply(plan as Plan.Add, transaction);
+            if (plan is Plan.Update) result = Apply(plan as Plan.Update, transaction);
+            if (plan is Plan.Delete) result = Apply(plan as Plan.Delete, transaction);
+            transaction.Commit();
+            return result;
+        }
+        public Option<int> Apply(Plan.Add addPlan, OleDbTransaction transaction)
+        {
             var restPlanId = InsertRestPlan(transaction, addPlan.Rest);
-            var workPlanId = InsertWorkPlan(transaction, addPlan.Work, restPlanId);
-            transaction.Commit();
-            return workPlanId;
+            if (restPlanId.isEmpty()) return new None<int>();
+            return InsertWorkPlan(transaction, addPlan.Work, restPlanId.get());
         }
-        public int Apply(Plan.Update updatePlan)
+        public Option<int> Apply(Plan.Update updatePlan, OleDbTransaction transaction)
         {
-            var transaction = Connection.BeginTransaction();
             var workPlanId = SelectPlanId(transaction, updatePlan.Work);
-            var restPlanId = SelectPlanData(transaction, "rest_plan_id", $"`id` = {workPlanId}");
-            Update(transaction, restPlanId, updatePlan.Rest);
-            transaction.Commit();
+            if (workPlanId.isEmpty()) return new None<int>();
+            var restPlanId = SelectPlanData(transaction, "rest_plan_id", $"`id` = {workPlanId.get()}");
+            if (restPlanId.isEmpty()) return new None<int>();
+            var updateResult = Update(transaction, restPlanId.get(), updatePlan.Rest);
+            if (updateResult.isEmpty()) return new None<int>();
             return workPlanId;
         }
-        public int Apply(Plan.Delete deletePlan)
+        public Option<int> Apply(Plan.Delete deletePlan, OleDbTransaction transaction)
         {
-            var transaction = Connection.BeginTransaction();
             var workPlanId = SelectPlanId(transaction, deletePlan.Work);
-            var restPlanId = SelectPlanData(transaction, "rest_plan_id", $"`id` = {workPlanId}");
-            DeletePlanRecode(transaction, workPlanId);
-            DeletePlanRecode(transaction, restPlanId);
-            transaction.Commit();
+            if (workPlanId.isEmpty()) return new None<int>();
+            var restPlanId = SelectPlanData(transaction, "rest_plan_id", $"`id` = {workPlanId.get()}");
+            if (restPlanId.isEmpty()) return new None<int>();
+            var workPlanDeleteResult = DeletePlanRecode(transaction, workPlanId.get());
+            if (workPlanDeleteResult.isEmpty()) return new None<int>();
+            var restPlanDeleteResult = DeletePlanRecode(transaction, restPlanId.get());
+            if (restPlanDeleteResult.isEmpty()) return new None<int>();
             return workPlanId;
         }
 
-        private int InsertWorkPlan(OleDbTransaction transaction, Plan.Recode workPlan, int restPlanId)
+        private Option<int> InsertWorkPlan(OleDbTransaction transaction, Plan.Recode workPlan, int restPlanId)
         {
             var tableName = "`plan`";
             var rows    = "`requester`, `date`, `time`, `type`, `rest_plan_id`";
@@ -59,12 +64,11 @@ namespace CSACC.gateway
             var order   = $"INSERT INTO {tableName}({rows}) VALUES ({values})";
             var command = new OleDbCommand(order, Connection);
             command.Transaction = transaction;
-            command.ExecuteNonQuery();
-            var selectCommand = new OleDbCommand("SELECT @@IDENTITY", Connection);
-            selectCommand.Transaction = transaction;
-            return (int)selectCommand.ExecuteScalar();
+            var result = command.OptionalExecuteNonQuery();
+            if (result.isLeft()) return new None<int>();
+            return OleDbExtension.SelectIDENTITY(Connection, transaction);
         }
-        private int InsertRestPlan(OleDbTransaction transaction, Plan.Recode restPlan)
+        private Option<int> InsertRestPlan(OleDbTransaction transaction, Plan.Recode restPlan)
         {
             var tableName = "`plan`";
             var rows    = "`requester`, `date`, `time`, `type`";
@@ -72,13 +76,12 @@ namespace CSACC.gateway
             var order   = $"INSERT INTO {tableName}({rows}) VALUES ({values})";
             var command = new OleDbCommand(order, Connection);
             command.Transaction = transaction;
-            command.ExecuteNonQuery();
-            var selectCommand = new OleDbCommand("SELECT @@IDENTITY", Connection);
-            selectCommand.Transaction = transaction;
-            return (int)selectCommand.ExecuteScalar();
+            var result = command.OptionalExecuteNonQuery();
+            if (result.isLeft()) return new None<int>();
+            return OleDbExtension.SelectIDENTITY(Connection, transaction);
         }
 
-        private int SelectPlanId(OleDbTransaction transaction, Plan.Recode plan)
+        private Option<int> SelectPlanId(OleDbTransaction transaction, Plan.Recode plan)
         {
             var tableName = "`plan`";
             var where = $"`requester` = '{plan.Requester}' and `date` = #{plan.Date}# and `time` = '{plan.Time}'";
@@ -86,17 +89,17 @@ namespace CSACC.gateway
             var command = new OleDbCommand(order, Connection);
             command.Transaction = transaction;
             Console.WriteLine(order);
-            return (int)command.ExecuteScalar();
+            return command.OptionalExecuteScalar<int>().getOptRight();
         }
-        private int SelectPlanData(OleDbTransaction transaction, String target, String where)
+        private Option<int> SelectPlanData(OleDbTransaction transaction, String target, String where)
         {
             var tableName = "`plan`";
             var order = $"SELECT `{target}` FROM {tableName} WHERE {where}";
             var command = new OleDbCommand(order, Connection);
             command.Transaction = transaction;
-            return (int)command.ExecuteScalar();
+            return command.OptionalExecuteScalar<int>().getOptRight();
         }
-        private void Update(OleDbTransaction transaction, int id, Plan.Recode recode)
+        private Option<int> Update(OleDbTransaction transaction, int id, Plan.Recode recode)
         {
             var tableName = "`plan`";
             var orderText =
@@ -105,9 +108,9 @@ namespace CSACC.gateway
                 + $" WHERE  `id` = {id}";
             var command = new OleDbCommand(orderText, Connection);
             command.Transaction = transaction;
-            command.ExecuteNonQuery();
+            return command.OptionalExecuteNonQuery().getOptRight();
         }
-        private void DeletePlanRecode(OleDbTransaction transaction, int id)
+        private Option<int> DeletePlanRecode(OleDbTransaction transaction, int id)
         {
             var tableName = "`plan`";
             var orderText =
@@ -115,7 +118,7 @@ namespace CSACC.gateway
                 + $"WHERE `id` = {id}";
             var command = new OleDbCommand(orderText, Connection);
             command.Transaction = transaction;
-            command.ExecuteNonQuery();
+            return command.OptionalExecuteNonQuery().getOptRight();
         }
     }
 }
