@@ -42,6 +42,8 @@ namespace CSACC
     {
         R getRight();
         L getLeft();
+        Option<R> getOptRight();
+        Option<L> getOptLeft();
         bool isRight();
         bool isLeft();
     }
@@ -54,6 +56,8 @@ namespace CSACC
         }
         public R getRight() { throw new MissingFieldException("type Left: has not Right."); }
         public L getLeft() { return Value; }
+        public Option<R> getOptRight() { return new None<R>(); }
+        public Option<L> getOptLeft()  { return new Some<L>(Value); }
         public bool isRight() { return false; }
         public bool isLeft() { return true; }
     }
@@ -66,6 +70,8 @@ namespace CSACC
         }
         public R getRight() { return Value; }
         public L getLeft() { throw new MissingFieldException("type Right: has not Left."); }
+        public Option<R> getOptRight() { return new Some<R>(Value); }
+        public Option<L> getOptLeft()  { return new None<L>(); }
         public bool isRight() { return true; }
         public bool isLeft() { return false; }
     }
