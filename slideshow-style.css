@@ -1,0 +1,153 @@
+
+.slideshow {
+    --font-color: #ffffff;
+    --header-font-color: #c4c4c4;
+    --sub-font-color: silver;
+    /* --background-color: #1b1826;
+    --mark-color: #5f4a24; */
+    --background-color: #221e31;
+    --mark-color: #635230;
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+.slideshow .mark { background-color: var(--mark-color); }
+.slideshow section::-webkit-scrollbar { display:none; }
+.slideshow > .page_counter {
+    font-size: 85%;
+}
+.slideshow > .page_counter::after  { font-size: 75%;}
+/* .slideshow > .page_counter {
+    --index: "10";
+    --max:   "xx";
+    position: absolute;
+    right:  0;
+    bottom: -.25em;
+    margin-right: .5em;
+    padding-left:  .25em;
+    padding-right: .25em;
+    border: 1px solid;
+    border-radius: .5em .5em 0 0 / .5em .5em 0 0;
+    border-color: whitesmoke;
+    border-width: .1em;
+    font-size: 65%;
+}
+.slideshow > .page_counter::before { content: var(--index); }
+.slideshow > .page_counter::after  { content: var(--max);   } */
+
+.slideshow svg {
+    fill: white;
+    width:  100%;
+    height: 100%;
+}
+
+/* header */
+.slideshow > section > header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    font-size: 55%;
+    padding-right: .2em;
+    color: var(--header-font-color);
+}
+.slideshow > section > header > p::before {
+    content: ">";
+    margin-left: .25em;
+    margin-right: .25em;
+}
+.slideshow > section > header > p:first-of-type::before {
+    content: "#";
+}
+
+
+/* .slideshow header { font-size: 100%; } */
+/* .slideshow h2 { font-size: 160%; }
+.slideshow h3 { font-size: 145%; }
+.slideshow h4 { font-size: 130%; }
+.slideshow h5 { font-size: 120%; }
+.slideshow h6 { font-size: 110%; } */
+.slideshow p  { font-size: 100%; }
+.slideshow ul { font-size: 100%; }
+.slideshow ul::marker { font-size: 100%; padding: 0; margin: 0; }
+/* .slideshow li { font-size: 100%; } */
+.slideshow a:link    { color: var(--sub-font-color); }
+.slideshow a:visited { color: var(--sub-font-color); }
+.slideshow table,
+.slideshow tr,
+.slideshow th,
+.slideshow td  { font-size: 100%; }
+.slideshow table {
+    --boder-color: var(--sub-font-color);
+    /* margin-left: .5em; */
+    border-collapse: collapse;
+}
+.slideshow th {
+    /* background-color: #eee; */
+    border: .08em solid var(--boder-color);
+    padding-left:  .25em;
+    padding-right: .25em;
+}
+.slideshow td {
+    /* background-color: #fff; */
+    border: .08em solid var(--boder-color);
+    padding-left:  .25em;
+    padding-right: .25em;
+}
+/* .slideshow img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+} */
+
+.slideshow > section { font-size: 100%; }
+.slideshow > section section { 
+    font-size: 85%;
+    margin-top:  .45em;
+    margin-left: .55em;
+}
+.slideshow > section section { margin-left: 1em; }
+.slideshow > section > * { margin-left: 1em; }
+/* .slideshow > section section > * { margin-left: 1em; } */
+/* .slideshow > section > p  { margin-left: 1em; } */
+.slideshow > section > ul { margin-left: 1.5em; }
+
+
+/* set position */
+.slideshow .center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.slideshow .top    { position: absolute; top:    0; }
+.slideshow .left   { position: absolute; left:   0; }
+.slideshow .bottom { position: absolute; bottom: 0; }
+.slideshow .row  { width: 100%; display: flex; flex-direction: row; justify-content: center; align-items: center;; }
+
+/* Re: styling */
+.slideshow .box  { --size: 100%; width: var(--size); height: var(--size); }
+
+.slideshow .cover h1 { font-size: 180%; }
+.slideshow h1 { font-size: 135%; }
+.slideshow > section > h1 {
+    display: inline-flex;
+    align-items: center;
+    margin-left: .25em;
+}
+.slideshow > section > h1 > *:first-child + * {
+    margin-left: .2em;
+}
+.slideshow > section > h1:not(.has_icon)::before { 
+    content: "|>";
+    margin-right: .25em;
+}
+.slideshow > section:first-of-type > h1::before {
+    content: "";
+    margin-right: 0;
+}
+.slideshow ul.remove_head {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

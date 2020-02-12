@@ -1,0 +1,16 @@
+
+html, body, section, h1, h2, h3, h4, h5, h6, p, input, ul, table, tr, th, td, hr {
+    padding: 0;
+    margin:  0;
+}
+html, body {
+    height: 100%;
+}
+
+.centering {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
