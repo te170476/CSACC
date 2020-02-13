@@ -90,7 +90,7 @@
     margin-left: .55em;
 }
 .slideshow > section section { margin-left: 1em; }
-.slideshow > section:not(.center) > * { margin-left: 1em; }
+.slideshow > section:not(.center) > *:not(h1) { margin-left: 1em; }
 /* .slideshow > section section > * { margin-left: 1em; } */
 /* .slideshow > section > p  { margin-left: 1em; } */
 .slideshow > section > ul { margin-left: 1.5em; }
