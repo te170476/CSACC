@@ -28,13 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.readCsv = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // readCsv
+            // 
+            this.readCsv.Location = new System.Drawing.Point(221, 178);
+            this.readCsv.Name = "readCsv";
+            this.readCsv.Size = new System.Drawing.Size(75, 23);
+            this.readCsv.TabIndex = 0;
+            this.readCsv.Text = "readCSV";
+            this.readCsv.UseVisualStyleBackColor = true;
+            this.readCsv.Click += new System.EventHandler(this.ReadCsv_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.readCsv);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button readCsv;
     }
 }
 

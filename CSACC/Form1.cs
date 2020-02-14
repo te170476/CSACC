@@ -1,5 +1,4 @@
-﻿using CSACC.input.fromCsv;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,18 +12,24 @@ namespace CSACC
 {
     public partial class Form1 : Form
     {
-        private ToEntityConverter           toEntity    = new ToEntityConverter();
-        private gateway.FromEntityConverter fromEntity  = new gateway.FromEntityConverter();
-        private gateway.Gateway             gateway     = new gateway.Gateway();
+        private input.fromCsv.ToEntityConverter toEntity    = new input.fromCsv.ToEntityConverter();
+        private gateway.FromEntityConverter     fromEntity  = new gateway.FromEntityConverter();
+        private gateway.Gateway                 gateway     = new gateway.Gateway();
         public Form1()
         {
             InitializeComponent();
+        }
 
-            new CsvReader().read(Config.CsvPath)
-                .SelectMany(it=> toEntity.ToRequest(it))
-                .Select(it=> fromEntity.FromRequest(it))
+        private void ReadCsv_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() != DialogResult.OK) return;
+
+            new input.fromCsv.CsvReader().read(dialog.FileName)
+                .SelectMany(it => toEntity.ToRequest(it))
+                .Select(it => fromEntity.FromRequest(it))
                 .ToList()
-                .ForEach(it=> gateway.Apply(it));
+                .ForEach(it => gateway.Apply(it));
         }
     }
 }
