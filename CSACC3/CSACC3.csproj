@@ -70,6 +70,7 @@
     <Compile Include="gateway\EmployeeId.cs" />
     <Compile Include="gateway\EmployeeName.cs" />
     <Compile Include="gateway\GatewayConnector.cs" />
+    <Compile Include="gateway\Log.cs" />
     <Compile Include="gateway\Request.cs" />
     <Compile Include="gateway\RequestAction.cs" />
     <Compile Include="gateway\RequestDate.cs" />

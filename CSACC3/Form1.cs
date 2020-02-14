@@ -49,7 +49,14 @@ namespace CSACC3
             var workTime = workTimeComboBox.Text;
             var restDate = DateTime.Parse(restDatePicker.Text);
             var restTime = restTimeComboBox.Text;
-            adapter.AddRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+
+            var requestDivision = requestDivisionComboBox.Text;
+
+            if (requestDivision == "新規")
+                adapter.AddRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+            if (requestDivision == "更新")
+                adapter.UpdateRequest(writerId, departmentId, requesterId, workDate, workTime, restDate, restTime);
+
         }
 
 
@@ -117,6 +124,9 @@ namespace CSACC3
             if (ids.Count() > 1)
                 requesterIdComboBox.DroppedDown = true;
         }
-
+        public void SetAddRequestResult(String message)
+        {
+            Console.WriteLine($"AddRequest() is {message}.");
+        }
     }
 }

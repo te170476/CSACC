@@ -36,4 +36,19 @@ namespace CSACC3
         public bool isEmpty() { return !isDefined(); }
         public String getMessage() { return Message; }
     }
+
+    public interface Result {
+        Boolean isSucceed();
+        Boolean isFailure();
+    }
+    public class Success : Result
+    {
+        public bool isSucceed() { return true; }
+        public bool isFailure() { return false; }
+    }
+    public class Failure: Result
+    {
+        public bool isSucceed() { return false; }
+        public bool isFailure() { return true; }
+    }
 }
