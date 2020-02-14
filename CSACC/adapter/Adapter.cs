@@ -20,40 +20,44 @@ namespace com.github.tcc170476.CSACC
             View = view;
         }
 
-        public void AddWriter(String name)
+        public Option<int> AddWriter(String name)
         {
             var transaction = Gateway.GetTransaction();
             var writerId = Gateway.Employee.Insert(transaction, name);
-            if (writerId.isEmpty()) { failure(); return; }
-            success();
+            if (writerId.isEmpty()) { return failure(); }
+            return success();
 
-            void success()
-            {
-                transaction.Commit();
-                View.OnSuccessAddWriter(writerId.get());
-            }
-            void failure()
-            {
-                transaction.Rollback();
-                View.OnFailureAddWriter();
-            }
-        }
-        public void GetWriterId(String name)
-        {
-            var transaction = Gateway.GetTransaction();
-            var writerId = Gateway.Employee.SelectId(transaction, name);
-            if (writerId.isEmpty()) { failure(); return; }
-            success();
-
-            void success()
+            Option<int> success()
             {
                 transaction.Commit();
                 View.OnSuccessGetWriterId(writerId.get());
+                return new Some<int>(writerId.get());
             }
-            void failure()
+            Option<int> failure()
             {
                 transaction.Rollback();
                 View.OnFailureGetWriterId();
+                return new None<int>();
+            }
+        }
+        public Option<int> GetWriterId(String name)
+        {
+            var transaction = Gateway.GetTransaction();
+            var writerId = Gateway.Employee.SelectId(transaction, name);
+            if (writerId.isEmpty()) { return failure(); }
+            return success();
+
+            Option<int> success()
+            {
+                transaction.Commit();
+                View.OnSuccessGetWriterId(writerId.get());
+                return new Some<int>(writerId.get());
+            }
+            Option<int> failure()
+            {
+                transaction.Rollback();
+                View.OnFailureGetWriterId();
+                return new None<int>();
             }
         }
         public void AddDepartment(String name)
@@ -74,22 +78,24 @@ namespace com.github.tcc170476.CSACC
                 View.OnFailureAddDepartment();
             }
         }
-        public void GetDepartmentId(String name)
+        public Option<int> GetDepartmentId(String name)
         {
             var transaction = Gateway.GetTransaction();
             var departmentId = Gateway.Department.SelectId(transaction, name);
-            if (departmentId.isEmpty()) { failure(); return; }
-            success();
+            if (departmentId.isEmpty()) { return failure(); }
+            return success();
 
-            void success()
+            Option<int> success()
             {
                 transaction.Commit();
                 View.OnSuccessGetDepartmentId(departmentId.get());
+                return new Some<int>(departmentId.get());
             }
-            void failure()
+            Option<int> failure()
             {
                 transaction.Rollback();
                 View.OnFailureGetDepartmentId();
+                return new None<int>();
             }
         }
         public void AddRequester(String name)
@@ -110,22 +116,24 @@ namespace com.github.tcc170476.CSACC
                 View.OnFailureAddRequester();
             }
         }
-        public void GetRequesterId(String name)
+        public Option<int> GetRequesterId(String name)
         {
             var transaction = Gateway.GetTransaction();
             var requesterId = Gateway.Employee.SelectId(transaction, name);
-            if (requesterId.isEmpty()) { failure(); return; }
-            success();
+            if (requesterId.isEmpty()) { return failure(); }
+            return success();
 
-            void success()
+            Option<int> success()
             {
                 transaction.Commit();
                 View.OnSuccessGetRequesterId(requesterId.get());
+                return new Some<int>(requesterId.get());
             }
-            void failure()
+            Option<int> failure()
             {
                 transaction.Rollback();
                 View.OnFailureGetRequesterId();
+                return new None<int>();
             }
         }
         public void Request(AddRequest request)

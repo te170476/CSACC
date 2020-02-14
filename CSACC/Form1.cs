@@ -80,15 +80,19 @@ namespace com.github.tcc170476.CSACC
         }
         private void GetWriterIdButton_Click(object sender, EventArgs e)
         {
-            Adapter.GetWriterId(writerNameTextBox.Text);
+            var result = Adapter.GetWriterId(writerNameTextBox.Text);
+            if (result.isEmpty())
+                result = Adapter.AddWriter(writerNameTextBox.Text);
+            requesterIdComboBox.Text = result.get().ToString();
+
         }
         private void GetDepartmentIdButton_Click(object sender, EventArgs e)
         {
-            Adapter.GetDepartmentId(departmentNameTextBox.Text);
+            var result = Adapter.GetDepartmentId(departmentNameTextBox.Text);
         }
         private void GetRequesterIdButton_Click(object sender, EventArgs e)
         {
-            Adapter.GetRequesterId(requesterNameTextBox.Text);
+            var result = Adapter.GetRequesterId(requesterNameTextBox.Text);
         }
         private void ApplyButton_Click(object sender, EventArgs e)
         {
@@ -155,7 +159,7 @@ namespace com.github.tcc170476.CSACC
         public void OnFailureGetWriterId()
         {
             SetFailureLabel("get writer id.");
-            Adapter.AddRequester(requesterNameTextBox.Text);
+            Adapter.AddWriter(requesterNameTextBox.Text);
         }
         public void OnSuccessAddDepartment(int departmentId)
         {

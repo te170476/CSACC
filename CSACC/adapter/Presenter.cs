@@ -11,7 +11,7 @@ namespace com.github.tcc170476.CSACC.adapter
         public String Writer            { get; private set; }
         public String Department        { get; private set; }
         public String AnswerDateAndTime { get; private set; }
-        public String Requester              { get; private set; }
+        public String Requester         { get; private set; }
         public String RequestDivision   { get; private set; }
         public String HolidayWorkDate1  { get; private set; }
         public String WorkTimeDivision1 { get; private set; }
